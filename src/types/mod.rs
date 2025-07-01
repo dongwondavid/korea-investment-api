@@ -383,6 +383,9 @@ impl From<&str> for ExecClass {
 #[derive(Clone, Debug, Deserialize)]
 #[repr(i32)]
 pub enum VsPriceSign {
+    /// 해당사항없음(0)
+    #[serde(rename = "0")]
+    None = 0,
     /// 상한(1)
     #[serde(rename = "1")]
     UpperLimit = 1,
@@ -403,6 +406,7 @@ pub enum VsPriceSign {
 impl From<&str> for VsPriceSign {
     fn from(s: &str) -> Self {
         match s {
+            "0" => Self::None,
             "1" => Self::UpperLimit,
             "2" => Self::Increase,
             "3" => Self::Steady,

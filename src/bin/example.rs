@@ -5,12 +5,12 @@ use korea_investment_api::types::{Account, MarketCode, PeriodCode, TrId};
 use korea_investment_api::KoreaInvestmentApi;
 use std::io::Read;
 use std::path::PathBuf;
-use structopt::StructOpt;
+use clap::Parser;
 use thiserror::Error;
 use xan_log::init_logger;
 
-#[derive(StructOpt)]
-#[structopt(name = "opt", about = "example")]
+#[derive(Parser)]
+#[command(name = "opt", about = "example")]
 struct Opt {
     config_path: PathBuf,
 }
@@ -51,8 +51,8 @@ async fn get_api(config: &Config) -> Result<KoreaInvestmentApi, Error> {
 
 #[tokio::main]
 async fn main() {
-    init_logger();
-    let Opt { config_path } = Opt::from_args();
+    init_logger().unwrap();
+    let Opt { config_path } = Opt::parse();
     let config = get_config(&config_path).unwrap();
     let mut api = get_api(&config).await.unwrap();
     api.export_config(&config).unwrap();

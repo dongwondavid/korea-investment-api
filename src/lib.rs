@@ -9,7 +9,6 @@ extern crate log;
 pub const BUF_SIZE: usize = 4096;
 
 pub struct KoreaInvestmentApi {
-    client: reqwest::Client,
     pub auth: auth::Auth,
     pub order: stock::order::Korea,
     pub quote: stock::quote::Quote,
@@ -50,7 +49,6 @@ impl KoreaInvestmentApi {
             stock::data::KoreaStockData::new(acc.clone(), auth.clone(), account.clone(), hts_id)?;
         info!("API Ready");
         Ok(Self {
-            client,
             auth,
             order,
             quote,
