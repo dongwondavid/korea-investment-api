@@ -7,7 +7,8 @@ use std::io::Read;
 use std::path::PathBuf;
 use clap::Parser;
 use thiserror::Error;
-use xan_log::init_logger;
+use env_logger;
+use log::{info, error, warn, debug};
 
 #[derive(Parser)]
 #[command(name = "opt", about = "example")]
@@ -43,15 +44,15 @@ async fn get_api(config: &Config) -> Result<KoreaInvestmentApi, Error> {
         config.app_secret(),
         account,
         config.hts_id(),
-        config.token().clone(),
-        config.approval_key().clone(),
+        config.token_as_option(),
+        config.approval_key_as_option(),
     )
     .await?)
 }
 
 #[tokio::main]
 async fn main() {
-    init_logger().unwrap();
+    env_logger::init();
     let Opt { config_path } = Opt::parse();
     let config = get_config(&config_path).unwrap();
     let mut api = get_api(&config).await.unwrap();

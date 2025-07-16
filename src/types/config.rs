@@ -21,3 +21,20 @@ pub struct Config {
     #[getset(get = "pub")]
     environment: Environment,
 }
+
+impl Config {
+    /// Returns token as Option<String>, treating empty string as None
+    pub fn token_as_option(&self) -> Option<String> {
+        match &self.token {
+            Some(s) if !s.trim().is_empty() => Some(s.clone()),
+            _ => None,
+        }
+    }
+    /// Returns approval_key as Option<String>, treating empty string as None
+    pub fn approval_key_as_option(&self) -> Option<String> {
+        match &self.approval_key {
+            Some(s) if !s.trim().is_empty() => Some(s.clone()),
+            _ => None,
+        }
+    }
+}
