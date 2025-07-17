@@ -211,6 +211,49 @@ impl Korea {
         Ok(resp)
     }
 
-    // TODO: 매수가능조회[v1_국내주식-007]
-    // [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_806e407c-3082-44c0-9d71-e8534db5ad54)
+    /// 매수가능조회[v1_국내주식-007]
+    /// [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_806e407c-3082-44c0-9d71-e8534db5ad54)
+    pub async fn inquire_psbl_order(
+        &self,
+        pdno: &str,
+        ord_unpr: &str,
+        ord_dvsn: &str,
+        cma_evlu_amt_icld_yn: &str,
+        ovrs_icld_yn: &str,
+    ) -> Result<response::stock::order::Body::InquirePsblOrder, Error> {
+        use crate::types::request::stock::order::Body::InquirePsblOrder;
+        let params = InquirePsblOrder::new(
+            self.account.cano.clone(),
+            self.account.acnt_prdt_cd.clone(),
+            pdno.to_string(),
+            ord_unpr.to_string(),
+            ord_dvsn.to_string(),
+            cma_evlu_amt_icld_yn.to_string(),
+            ovrs_icld_yn.to_string(),
+        );
+        let tr_id = match self.environment {
+            Environment::Real => "TTTC8908R",
+            Environment::Virtual => "VTTC8908R",
+        };
+        let token = match self.auth.get_token() {
+            Some(token) => format!("Bearer {}", token),
+            None => return Err(Error::AuthInitFailed("token")),
+        };
+        let mut req = self.client.get(format!(
+            "{}/uapi/domestic-stock/v1/trading/inquire-psbl-order",
+            self.endpoint_url
+        ));
+        req = req
+            .header("Content-Type", "application/json; charset=utf-8")
+            .header("Authorization", token)
+            .header("appkey", self.auth.get_appkey())
+            .header("appsecret", self.auth.get_appsecret())
+            .header("tr_id", tr_id)
+            .header("custtype", "P");
+        for (k, v) in params.into_iter() {
+            req = req.query(&[(k, v)]);
+        }
+        let resp = req.send().await?.json::<response::stock::order::Body::InquirePsblOrder>().await?;
+        Ok(resp)
+    }
 }

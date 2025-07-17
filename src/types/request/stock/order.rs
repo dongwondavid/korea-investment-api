@@ -143,4 +143,66 @@ pub mod Body {
             serde_json::json!(self).to_string()
         }
     }
+
+    /// 매수가능조회 Query Parameter
+    #[derive(Debug, Clone, Getters, Setters, Serialize)]
+    #[serde(rename_all = "UPPERCASE")]
+    pub struct InquirePsblOrder {
+        /// 종합계좌번호 (계좌번호 체계(8-2)의 앞 8자리)
+        #[getset(get = "pub", set = "pub")]
+        cano: String,
+        /// 계좌상품코드 (계좌번호 체계(8-2)의 뒤 2자리)
+        #[getset(get = "pub", set = "pub")]
+        acnt_prdt_cd: String,
+        /// 상품번호 (종목번호(6자리))
+        #[getset(get = "pub", set = "pub")]
+        pdno: String,
+        /// 주문단가 (1주당 가격, 시장가 시 공란)
+        #[getset(get = "pub", set = "pub")]
+        ord_unpr: String,
+        /// 주문구분 (00:지정가, 01:시장가 등)
+        #[getset(get = "pub", set = "pub")]
+        ord_dvsn: String,
+        /// CMA평가금액포함여부 (Y:포함, N:포함하지않음)
+        #[getset(get = "pub", set = "pub")]
+        cma_evlu_amt_icld_yn: String,
+        /// 해외포함여부 (Y:포함, N:포함하지않음)
+        #[getset(get = "pub", set = "pub")]
+        ovrs_icld_yn: String,
+    }
+
+    impl InquirePsblOrder {
+        pub fn new(
+            cano: String,
+            acnt_prdt_cd: String,
+            pdno: String,
+            ord_unpr: String,
+            ord_dvsn: String,
+            cma_evlu_amt_icld_yn: String,
+            ovrs_icld_yn: String,
+        ) -> Self {
+            Self {
+                cano,
+                acnt_prdt_cd,
+                pdno,
+                ord_unpr,
+                ord_dvsn,
+                cma_evlu_amt_icld_yn,
+                ovrs_icld_yn,
+            }
+        }
+
+        /// Query parameter로 변환
+        pub fn into_iter(&self) -> Vec<(&'static str, String)> {
+            vec![
+                ("CANO", self.cano.clone()),
+                ("ACNT_PRDT_CD", self.acnt_prdt_cd.clone()),
+                ("PDNO", self.pdno.clone()),
+                ("ORD_UNPR", self.ord_unpr.clone()),
+                ("ORD_DVSN", self.ord_dvsn.clone()),
+                ("CMA_EVLU_AMT_ICLD_YN", self.cma_evlu_amt_icld_yn.clone()),
+                ("OVRS_ICLD_YN", self.ovrs_icld_yn.clone()),
+            ]
+        }
+    }
 }

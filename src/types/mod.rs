@@ -277,6 +277,11 @@ pub enum TrId {
     RealRealtimeMyExec,
     #[serde(rename = "H0STCNI9")]
     VirtualRealtimeMyExec,
+    // Inquire buying power
+    #[serde(rename = "TTTC8908R")]
+    RealStockInquirePsblOrder,
+    #[serde(rename = "VTTC8908R")]
+    VirtualStockInquirePsblOrder,
     // PingPong
     #[serde(rename = "PINGPONG")]
     PingPong,
@@ -303,6 +308,9 @@ impl Into<String> for TrId {
             TrId::RealtimeOrdb => "H0STASP0",
             TrId::RealRealtimeMyExec => "H0STCNI0",
             TrId::VirtualRealtimeMyExec => "H0STCNI9",
+            // Inquire buying power
+            TrId::RealStockInquirePsblOrder => "TTTC8908R",
+            TrId::VirtualStockInquirePsblOrder => "VTTC8908R",
             // PingPong
             TrId::PingPong => "PINGPONG",
         }
@@ -332,6 +340,9 @@ impl From<&str> for TrId {
             "H0STASP0" => TrId::RealtimeOrdb,
             "H0STCNI0" => TrId::RealRealtimeMyExec,
             "H0STCNI9" => TrId::VirtualRealtimeMyExec,
+            // Inquire buying power
+            "TTTC8908R" => TrId::RealStockInquirePsblOrder,
+            "VTTC8908R" => TrId::VirtualStockInquirePsblOrder,
             // PingPong
             "PINGPONG" => TrId::PingPong,
             _ => todo!(),

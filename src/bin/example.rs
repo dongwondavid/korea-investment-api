@@ -69,5 +69,19 @@ async fn main() {
         )
         .await
         .unwrap();
-    println!("{:?}", balance);
+    println!("주식잔고조회 결과: {:?}", balance);
+
+    // 매수가능조회 예시
+    let buying_power = api
+        .order
+        .inquire_psbl_order(
+            "005930", // pdno: 종목코드 (삼성전자)
+            "",  // ord_unpr: 주문단가 (시장가 시 "0" 또는 "" 입력)
+            "01",     // ord_dvsn: 주문구분 (01: 시장가, 00: 지정가)
+            "N",      // cma_evlu_amt_icld_yn: CMA평가금액포함여부 (Y: 포함, N: 미포함)
+            "N",      // ovrs_icld_yn: 해외포함여부 (Y: 포함, N: 미포함)
+        )
+        .await
+        .unwrap();
+    println!("매수가능조회 결과: {:?}", buying_power);
 }
