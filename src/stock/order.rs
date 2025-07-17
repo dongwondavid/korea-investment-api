@@ -153,11 +153,114 @@ impl Korea {
             .await?)
     }
 
-    // TODO: 주식정정취소가능주문조회[v1_국내주식-004]
-    // [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_d4537e9c-73f7-414c-9fb0-4eae3bc397d0)
-
-    // TODO: 주식일별주문체결조회[v1_국내주식-005]
-    // [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_bc51f9f7-146f-4971-a5ae-ebd574acec12)
+    /// 주식정정취소가능주문조회[v1_국내주식-004]
+    /// [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_d4537e9c-73f7-414c-9fb0-4eae3bc397d0)
+    pub async fn inquire_psbl_rvsecncl(
+        &self,
+        inqr_dvsn_1: &str,
+        inqr_dvsn_2: &str,
+        ctx_area_fk100: Option<&str>,
+        ctx_area_nk100: Option<&str>,
+    ) -> Result<response::stock::order::Body::InquirePsblRvsecncl, Error> {
+        use crate::types::request::stock::order::Body::InquirePsblRvsecncl as Param;
+        let params = Param::new(
+            self.account.cano.clone(),
+            self.account.acnt_prdt_cd.clone(),
+            ctx_area_fk100.map(|s| s.to_string()),
+            ctx_area_nk100.map(|s| s.to_string()),
+            inqr_dvsn_1.to_string(),
+            inqr_dvsn_2.to_string(),
+        );
+        let tr_id = "TTTC0084R";
+        let token = match self.auth.get_token() {
+            Some(token) => format!("Bearer {}", token),
+            None => return Err(Error::AuthInitFailed("token")),
+        };
+        let mut req = self.client.get(format!(
+            "{}/uapi/domestic-stock/v1/trading/inquire-psbl-rvsecncl",
+            "https://openapi.koreainvestment.com:9443"
+        ));
+        req = req
+            .header("Content-Type", "application/json; charset=utf-8")
+            .header("Authorization", token)
+            .header("appkey", self.auth.get_appkey())
+            .header("appsecret", self.auth.get_appsecret())
+            .header("tr_id", tr_id)
+            .header("custtype", "P");
+        for (k, v) in params.into_iter() {
+            req = req.query(&[(k, v)]);
+        }
+        Ok(req
+            .send()
+            .await?
+            .json::<response::stock::order::Body::InquirePsblRvsecncl>()
+            .await?)
+    }
+    /// 주식일별주문체결조회[v1_국내주식-005]
+    /// [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_bc51f9f7-146f-4971-a5ae-ebd574acec12)
+    #[allow(clippy::too_many_arguments)]
+    pub async fn inquire_daily_ccld(
+        &self,
+        inqr_strt_dt: &str,
+        inqr_end_dt: &str,
+        sll_buy_dvsn_cd: &str,
+        pdno: &str,
+        ord_gno_brno: &str,
+        odno: &str,
+        ccld_dvsn: &str,
+        inqr_dvsn: &str,
+        inqr_dvsn_1: &str,
+        inqr_dvsn_3: &str,
+        excg_id_dvsn_cd: &str,
+        ctx_area_fk100: Option<&str>,
+        ctx_area_nk100: Option<&str>,
+    ) -> Result<response::stock::order::Body::InquireDailyCcld, Error> {
+        use crate::types::request::stock::order::Body::InquireDailyCcld as Param;
+        let params = Param::new(
+            self.account.cano.clone(),
+            self.account.acnt_prdt_cd.clone(),
+            inqr_strt_dt.to_string(),
+            inqr_end_dt.to_string(),
+            sll_buy_dvsn_cd.to_string(),
+            pdno.to_string(),
+            ord_gno_brno.to_string(),
+            odno.to_string(),
+            ccld_dvsn.to_string(),
+            inqr_dvsn.to_string(),
+            inqr_dvsn_1.to_string(),
+            inqr_dvsn_3.to_string(),
+            excg_id_dvsn_cd.to_string(),
+            ctx_area_fk100.map(|s| s.to_string()),
+            ctx_area_nk100.map(|s| s.to_string()),
+        );
+        let tr_id = match self.environment {
+            Environment::Real => "TTTC0081R",
+            Environment::Virtual => "VTTC0081R",
+        };
+        let token = match self.auth.get_token() {
+            Some(token) => format!("Bearer {}", token),
+            None => return Err(Error::AuthInitFailed("token")),
+        };
+        let mut req = self.client.get(format!(
+            "{}/uapi/domestic-stock/v1/trading/inquire-daily-ccld",
+            self.endpoint_url
+        ));
+        req = req
+            .header("Content-Type", "application/json; charset=utf-8")
+            .header("Authorization", token)
+            .header("appkey", self.auth.get_appkey())
+            .header("appsecret", self.auth.get_appsecret())
+            .header("tr_id", tr_id)
+            .header("custtype", "P");
+        for (k, v) in params.into_iter() {
+            req = req.query(&[(k, v)]);
+        }
+        Ok(req
+            .send()
+            .await?
+            .json::<response::stock::order::Body::InquireDailyCcld>()
+            .await?)
+    }
 
     /// 주식잔고조회[v1_국내주식-006]
     /// [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_66c61080-674f-4c91-a0cc-db5e64e9a5e6)
