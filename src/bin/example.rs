@@ -1,14 +1,11 @@
 use korea_investment_api::types::config::Config;
-use korea_investment_api::types::request::stock::quote::{GroupItemParameter, GroupListParameter};
-use korea_investment_api::types::stream::stock::{ordb::Body as OrdbBody, Ordb};
-use korea_investment_api::types::{Account, MarketCode, PeriodCode, TrId};
+use korea_investment_api::types::Account;
 use korea_investment_api::KoreaInvestmentApi;
 use std::io::Read;
 use std::path::PathBuf;
 use clap::Parser;
 use thiserror::Error;
 use env_logger;
-use log::{info, error, warn, debug};
 
 #[derive(Parser)]
 #[command(name = "opt", about = "example")]
@@ -55,60 +52,22 @@ async fn main() {
     env_logger::init();
     let Opt { config_path } = Opt::parse();
     let config = get_config(&config_path).unwrap();
-    let mut api = get_api(&config).await.unwrap();
-    api.export_config(&config).unwrap();
+    let api = get_api(&config).await.unwrap();
 
-    // 삼성전자 일자별 가격(단일 API 호출)
-    let samsung_electronics_daily_prices = api
-        .quote
-        .daily_price(MarketCode::Stock, "005930", PeriodCode::ThirtyDays, false)
+    // 주식잔고조회 예시
+    let balance = api
+        .order
+        .inquire_balance(
+            "N", // afhr_flpr_yn: 시간외단일가 여부 (N: 기본값)
+            "02", // inqr_dvsn: 조회구분 (02: 종목별)
+            "01", // unpr_dvsn: 단가구분 (01: 기본값)
+            "N", // fund_sttl_icld_yn: 펀드결제분포함여부 (N: 미포함)
+            "N", // fncg_amt_auto_rdpt_yn: 융자금액자동상환여부 (N: 기본값)
+            "00", // prcs_dvsn: 처리구분 (00: 전일매매포함)
+            None,  // ctx_area_fk100: 연속조회검색조건100 (None: 최초조회)
+            None,  // ctx_area_nk100: 연속조회키100 (None: 최초조회)
+        )
         .await
         .unwrap();
-    println!("{:?}", samsung_electronics_daily_prices);
-
-    let groups = api
-        .quote
-        .group_list(GroupListParameter::new(config.hts_id()))
-        .await
-        .unwrap();
-    println!("{:?}", groups);
-
-    if let Some(output) = groups.output() {
-        for group in output {
-            let group_items = api
-                .quote
-                .group_item(GroupItemParameter::new(
-                    config.hts_id(),
-                    group.inter_grp_code(),
-                ))
-                .await
-                .unwrap();
-            println!("{:?}", group_items);
-        }
-    } else if let Some(output) = groups.output2() {
-        for group in output {
-            let group_items = api
-                .quote
-                .group_item(GroupItemParameter::new(
-                    config.hts_id(),
-                    group.inter_grp_code(),
-                ))
-                .await
-                .unwrap();
-            println!("{:?}", group_items);
-        }
-    }
-
-    // 삼성전자 호가 실시간 시세 구독
-    let (rx, subscribe_response) = api
-        .k_data
-        .subscribe_market::<Ordb, OrdbBody>("KR7005930003", TrId::RealtimeOrdb)
-        .unwrap();
-
-    // 구독한 시세 읽기
-    if let Some(mut rx) = rx {
-        while let Some(ordb) = rx.recv().await {
-            println!("Got orderbook: {:?}", ordb);
-        }
-    }
+    println!("{:?}", balance);
 }

@@ -159,8 +159,57 @@ impl Korea {
     // TODO: 주식일별주문체결조회[v1_국내주식-005]
     // [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_bc51f9f7-146f-4971-a5ae-ebd574acec12)
 
-    // TODO: 주식잔고조회[v1_국내주식-006]
-    // [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_66c61080-674f-4c91-a0cc-db5e64e9a5e6)
+    /// 주식잔고조회[v1_국내주식-006]
+    /// [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_66c61080-674f-4c91-a0cc-db5e64e9a5e6)
+    pub async fn inquire_balance(
+        &self,
+        afhr_flpr_yn: &str,
+        inqr_dvsn: &str,
+        unpr_dvsn: &str,
+        fund_sttl_icld_yn: &str,
+        fncg_amt_auto_rdpt_yn: &str,
+        prcs_dvsn: &str,
+        ctx_area_fk100: Option<&str>,
+        ctx_area_nk100: Option<&str>,
+    ) -> Result<crate::types::response::stock::balance::BalanceResponse, Error> {
+        use crate::types::request::stock::balance::BalanceParameter;
+        let params = BalanceParameter::new(
+            self.account.cano.clone(),
+            self.account.acnt_prdt_cd.clone(),
+            afhr_flpr_yn.to_string(),
+            inqr_dvsn.to_string(),
+            unpr_dvsn.to_string(),
+            fund_sttl_icld_yn.to_string(),
+            fncg_amt_auto_rdpt_yn.to_string(),
+            prcs_dvsn.to_string(),
+            ctx_area_fk100.map(|s| s.to_string()),
+            ctx_area_nk100.map(|s| s.to_string()),
+        );
+        let tr_id = match self.environment {
+            Environment::Real => "TTTC8434R",
+            Environment::Virtual => "VTTC8434R",
+        };
+        let token = match self.auth.get_token() {
+            Some(token) => format!("Bearer {}", token),
+            None => return Err(Error::AuthInitFailed("token")),
+        };
+        let mut req = self.client.get(format!(
+            "{}/uapi/domestic-stock/v1/trading/inquire-balance",
+            self.endpoint_url
+        ));
+        req = req
+            .header("Content-Type", "application/json; charset=utf-8")
+            .header("Authorization", token)
+            .header("appkey", self.auth.get_appkey())
+            .header("appsecret", self.auth.get_appsecret())
+            .header("tr_id", tr_id)
+            .header("custtype", "P");
+        for (k, v) in params.into_iter() {
+            req = req.query(&[(k, v)]);
+        }
+        let resp = req.send().await?.json::<crate::types::response::stock::balance::BalanceResponse>().await?;
+        Ok(resp)
+    }
 
     // TODO: 매수가능조회[v1_국내주식-007]
     // [Docs](https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_806e407c-3082-44c0-9d71-e8534db5ad54)

@@ -485,7 +485,7 @@ checksum = "4cd405aab171cb85d6735e5c8d9db038c17d3ca007a4d2c25f337935c3d90580"
 dependencies = [
  "humantime",
  "is-terminal",
- "log 0.4.22",
+ "log 0.4.27",
  "regex",
  "termcolor",
 ]
@@ -961,7 +961,7 @@ dependencies = [
  "env_logger",
  "getset",
  "json",
- "log 0.4.22",
+ "log 0.4.27",
  "reqwest",
  "serde",
  "serde_json",
@@ -1012,14 +1012,14 @@ version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e19e8d5c34a3e0e2223db8e060f9e8264aeeb5c5fc64a4ee9965c062211c024b"
 dependencies = [
- "log 0.4.22",
+ "log 0.4.27",
 ]
 
 [[package]]
 name = "log"
-version = "0.4.22"
+version = "0.4.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
+checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 
 [[package]]
 name = "matches"
@@ -1075,7 +1075,7 @@ dependencies = [
  "iovec",
  "kernel32-sys",
  "libc",
- "log 0.4.22",
+ "log 0.4.27",
  "miow",
  "net2",
  "slab",
@@ -1113,7 +1113,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a8614eb2c83d59d1c8cc974dd3f920198647674a0a035e1af1fa58707e317466"
 dependencies = [
  "libc",
- "log 0.4.22",
+ "log 0.4.27",
  "openssl",
  "openssl-probe",
  "openssl-sys",
@@ -1564,7 +1564,7 @@ dependencies = [
  "hyper-tls",
  "ipnet",
  "js-sys",
- "log 0.4.22",
+ "log 0.4.27",
  "mime 0.3.17",
  "native-tls",
  "once_cell",
@@ -2016,7 +2016,7 @@ checksum = "57fc868aae093479e3131e3d165c93b1c7474109d13c90ec0dda2a1bbfff0674"
 dependencies = [
  "bytes 0.4.12",
  "futures",
- "log 0.4.22",
+ "log 0.4.27",
 ]
 
 [[package]]
@@ -2049,7 +2049,7 @@ dependencies = [
  "crossbeam-utils",
  "futures",
  "lazy_static",
- "log 0.4.22",
+ "log 0.4.27",
  "mio 0.6.23",
  "num_cpus",
  "parking_lot",
@@ -2304,7 +2304,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "614d787b966d3989fa7bb98a654e369c762374fd3213d212cfc0251257e747da"
 dependencies = [
  "bumpalo",
- "log 0.4.22",
+ "log 0.4.27",
  "once_cell",
  "proc-macro2",
  "quote",
