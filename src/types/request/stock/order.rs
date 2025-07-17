@@ -205,4 +205,159 @@ pub mod Body {
             ]
         }
     }
+    /// 주식정정취소가능주문조회 Query Parameter
+    #[derive(Debug, Clone, Getters, Setters, Serialize)]
+    #[serde(rename_all = "UPPERCASE")]
+    pub struct InquirePsblRvsecncl {
+        #[getset(get = "pub", set = "pub")]
+        pub cano: String,
+        #[getset(get = "pub", set = "pub")]
+        pub acnt_prdt_cd: String,
+        #[getset(get = "pub", set = "pub")]
+        pub ctx_area_fk100: Option<String>,
+        #[getset(get = "pub", set = "pub")]
+        pub ctx_area_nk100: Option<String>,
+        #[getset(get = "pub", set = "pub")]
+        pub inqr_dvsn_1: String,
+        #[getset(get = "pub", set = "pub")]
+        pub inqr_dvsn_2: String,
+    }
+
+    impl InquirePsblRvsecncl {
+        pub fn new(
+            cano: String,
+            acnt_prdt_cd: String,
+            ctx_area_fk100: Option<String>,
+            ctx_area_nk100: Option<String>,
+            inqr_dvsn_1: String,
+            inqr_dvsn_2: String,
+        ) -> Self {
+            Self {
+                cano,
+                acnt_prdt_cd,
+                ctx_area_fk100,
+                ctx_area_nk100,
+                inqr_dvsn_1,
+                inqr_dvsn_2,
+            }
+        }
+
+        pub fn into_iter(&self) -> Vec<(&'static str, String)> {
+            vec![
+                ("CANO", self.cano.clone()),
+                ("ACNT_PRDT_CD", self.acnt_prdt_cd.clone()),
+                (
+                    "CTX_AREA_FK100",
+                    self.ctx_area_fk100.clone().unwrap_or_default(),
+                ),
+                (
+                    "CTX_AREA_NK100",
+                    self.ctx_area_nk100.clone().unwrap_or_default(),
+                ),
+                ("INQR_DVSN_1", self.inqr_dvsn_1.clone()),
+                ("INQR_DVSN_2", self.inqr_dvsn_2.clone()),
+            ]
+        }
+    }
+
+    /// 주식일별주문체결조회 Query Parameter
+    #[derive(Debug, Clone, Getters, Setters, Serialize)]
+    #[serde(rename_all = "UPPERCASE")]
+    pub struct InquireDailyCcld {
+        #[getset(get = "pub", set = "pub")]
+        pub cano: String,
+        #[getset(get = "pub", set = "pub")]
+        pub acnt_prdt_cd: String,
+        #[getset(get = "pub", set = "pub")]
+        pub inqr_strt_dt: String,
+        #[getset(get = "pub", set = "pub")]
+        pub inqr_end_dt: String,
+        #[getset(get = "pub", set = "pub")]
+        pub sll_buy_dvsn_cd: String,
+        #[getset(get = "pub", set = "pub")]
+        pub pdno: String,
+        #[getset(get = "pub", set = "pub")]
+        pub ord_gno_brno: String,
+        #[getset(get = "pub", set = "pub")]
+        pub odno: String,
+        #[getset(get = "pub", set = "pub")]
+        pub ccld_dvsn: String,
+        #[getset(get = "pub", set = "pub")]
+        pub inqr_dvsn: String,
+        #[getset(get = "pub", set = "pub")]
+        pub inqr_dvsn_1: String,
+        #[getset(get = "pub", set = "pub")]
+        pub inqr_dvsn_3: String,
+        #[getset(get = "pub", set = "pub")]
+        pub excg_id_dvsn_cd: String,
+        #[getset(get = "pub", set = "pub")]
+        pub ctx_area_fk100: Option<String>,
+        #[getset(get = "pub", set = "pub")]
+        pub ctx_area_nk100: Option<String>,
+    }
+
+    impl InquireDailyCcld {
+        #[allow(clippy::too_many_arguments)]
+        pub fn new(
+            cano: String,
+            acnt_prdt_cd: String,
+            inqr_strt_dt: String,
+            inqr_end_dt: String,
+            sll_buy_dvsn_cd: String,
+            pdno: String,
+            ord_gno_brno: String,
+            odno: String,
+            ccld_dvsn: String,
+            inqr_dvsn: String,
+            inqr_dvsn_1: String,
+            inqr_dvsn_3: String,
+            excg_id_dvsn_cd: String,
+            ctx_area_fk100: Option<String>,
+            ctx_area_nk100: Option<String>,
+        ) -> Self {
+            Self {
+                cano,
+                acnt_prdt_cd,
+                inqr_strt_dt,
+                inqr_end_dt,
+                sll_buy_dvsn_cd,
+                pdno,
+                ord_gno_brno,
+                odno,
+                ccld_dvsn,
+                inqr_dvsn,
+                inqr_dvsn_1,
+                inqr_dvsn_3,
+                excg_id_dvsn_cd,
+                ctx_area_fk100,
+                ctx_area_nk100,
+            }
+        }
+
+        pub fn into_iter(&self) -> Vec<(&'static str, String)> {
+            vec![
+                ("CANO", self.cano.clone()),
+                ("ACNT_PRDT_CD", self.acnt_prdt_cd.clone()),
+                ("INQR_STRT_DT", self.inqr_strt_dt.clone()),
+                ("INQR_END_DT", self.inqr_end_dt.clone()),
+                ("SLL_BUY_DVSN_CD", self.sll_buy_dvsn_cd.clone()),
+                ("PDNO", self.pdno.clone()),
+                ("ORD_GNO_BRNO", self.ord_gno_brno.clone()),
+                ("ODNO", self.odno.clone()),
+                ("CCLD_DVSN", self.ccld_dvsn.clone()),
+                ("INQR_DVSN", self.inqr_dvsn.clone()),
+                ("INQR_DVSN_1", self.inqr_dvsn_1.clone()),
+                ("INQR_DVSN_3", self.inqr_dvsn_3.clone()),
+                ("EXCG_ID_DVSN_CD", self.excg_id_dvsn_cd.clone()),
+                (
+                    "CTX_AREA_FK100",
+                    self.ctx_area_fk100.clone().unwrap_or_default(),
+                ),
+                (
+                    "CTX_AREA_NK100",
+                    self.ctx_area_nk100.clone().unwrap_or_default(),
+                ),
+            ]
+        }
+    }
 }

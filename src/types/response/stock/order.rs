@@ -78,6 +78,24 @@ pub mod Body {
         #[getset(get = "pub")]
         output: Output::InquirePsblOrder,
     }
+    /// 주식일별주문체결조회
+    #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Getters)]
+    pub struct InquireDailyCcld {
+        #[getset(get = "pub")]
+        rt_cd: String,
+        #[getset(get = "pub")]
+        msg_cd: String,
+        #[getset(get = "pub")]
+        msg1: String,
+        #[getset(get = "pub")]
+        ctx_area_fk100: Option<String>,
+        #[getset(get = "pub")]
+        ctx_area_nk100: Option<String>,
+        #[getset(get = "pub")]
+        output1: Option<Vec<Output::InquireDailyCcld1>>,
+        #[getset(get = "pub")]
+        output2: Option<Output::InquireDailyCcld2>,
+    }
 }
 
 pub mod Output {
@@ -192,5 +210,94 @@ pub mod Output {
         /// 주문가능외화금액원화
         #[getset(get = "pub")]
         ord_psbl_frcr_amt_wcrc: String,
+    #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Getters)]
+    pub struct InquireDailyCcld1 {
+        #[getset(get = "pub")]
+        ord_dt: String,
+        #[getset(get = "pub")]
+        ord_gno_brno: String,
+        #[getset(get = "pub")]
+        odno: String,
+        #[getset(get = "pub")]
+        orgn_odno: String,
+        #[getset(get = "pub")]
+        ord_dvsn_name: String,
+        #[getset(get = "pub")]
+        sll_buy_dvsn_cd: String,
+        #[getset(get = "pub")]
+        sll_buy_dvsn_cd_name: String,
+        #[getset(get = "pub")]
+        pdno: String,
+        #[getset(get = "pub")]
+        prdt_name: String,
+        #[getset(get = "pub")]
+        ord_qty: String,
+        #[getset(get = "pub")]
+        ord_unpr: String,
+        #[getset(get = "pub")]
+        ord_tmd: String,
+        #[getset(get = "pub")]
+        tot_ccld_qty: String,
+        #[getset(get = "pub")]
+        avg_prvs: String,
+        #[getset(get = "pub")]
+        cncl_yn: String,
+        #[getset(get = "pub")]
+        tot_ccld_amt: String,
+        #[getset(get = "pub")]
+        loan_dt: String,
+        #[getset(get = "pub")]
+        ordr_empno: String,
+        #[getset(get = "pub")]
+        ord_dvsn_cd: String,
+        #[getset(get = "pub")]
+        cnc_cfrm_qty: String,
+        #[getset(get = "pub")]
+        rmn_qty: String,
+        #[getset(get = "pub")]
+        rjct_qty: String,
+        #[getset(get = "pub")]
+        ccld_cndt_name: String,
+        #[getset(get = "pub")]
+        inqr_ip_addr: String,
+        #[getset(get = "pub")]
+        cpbc_ordp_ord_rcit_dvsn_cd: String,
+        #[getset(get = "pub")]
+        cpbc_ordp_infm_mthd_dvsn_cd: String,
+        #[getset(get = "pub")]
+        infm_tmd: String,
+        #[getset(get = "pub")]
+        ctac_tlno: String,
+        #[getset(get = "pub")]
+        prdt_type_cd: String,
+        #[getset(get = "pub")]
+        excg_dvsn_cd: String,
+        #[getset(get = "pub")]
+        cpbc_ordp_mtrl_dvsn_cd: String,
+        #[getset(get = "pub")]
+        ord_orgno: String,
+        #[getset(get = "pub")]
+        rsvn_ord_end_dt: String,
+        #[getset(get = "pub")]
+        excg_id_dvsn_Cd: String,
+        #[getset(get = "pub")]
+        stpm_cndt_pric: String,
+        #[getset(get = "pub")]
+        stpm_efct_occr_dtmd: String,
+    }
+
+    #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Getters)]
+    pub struct InquireDailyCcld2 {
+        #[getset(get = "pub")]
+        tot_ord_qty: String,
+        #[getset(get = "pub")]
+        tot_ccld_qty: String,
+        #[getset(get = "pub")]
+        tot_ccld_amt: String,
+        #[getset(get = "pub")]
+        prsm_tlex_smtl: String,
+        #[getset(get = "pub")]
+        pchs_avg_pric: String,
+    }
     }
 }
