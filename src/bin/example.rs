@@ -84,4 +84,30 @@ async fn main() {
         .await
         .unwrap();
     println!("매수가능조회 결과: {:?}", buying_power);
+
+
+    // 유량 제한으로 1초 휴식
+    tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+
+    // 주식일별주문체결조회 예시
+    let daily_ccld = api
+        .order
+        .inquire_daily_ccld(
+            "20250701", // inqr_strt_dt: 조회시작일자 (YYYYMMDD)
+            "20250717", // inqr_end_dt: 조회종료일자 (YYYYMMDD)  
+            "00",       // sll_buy_dvsn_cd: 매도매수구분코드 (00: 전체, 01: 매도, 02: 매수)
+            "",         // pdno: 종목코드 (공백: 전체)
+            "",         // ord_gno_brno: 주문채번지점번호 (공백: 전체)
+            "",         // odno: 주문번호 (공백: 전체)
+            "00",       // ccld_dvsn: 체결구분 (00: 전체, 01: 체결, 02: 미체결)
+            "00",       // inqr_dvsn: 조회구분 (00: 역순, 01: 정순)
+            "",         // inqr_dvsn_1: 조회구분1 (공백: 전체)
+            "",         // inqr_dvsn_3: 조회구분3 (공백: 전체)
+            "",         // excg_id_dvsn_cd: 거래소ID구분코드 (공백: 전체)
+            None,       // ctx_area_fk100: 연속조회검색조건100 (None: 최초조회)
+            None,       // ctx_area_nk100: 연속조회키100 (None: 최초조회)
+        )
+        .await
+        .unwrap();
+    println!("주식일별주문체결조회 결과: {:?}", daily_ccld);
 }

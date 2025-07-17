@@ -78,6 +78,7 @@ pub mod Body {
         #[getset(get = "pub")]
         output: Output::InquirePsblOrder,
     }
+
     /// 주식일별주문체결조회
     #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Getters)]
     pub struct InquireDailyCcld {
@@ -210,6 +211,9 @@ pub mod Output {
         /// 주문가능외화금액원화
         #[getset(get = "pub")]
         ord_psbl_frcr_amt_wcrc: String,
+    }
+
+    /// 주식일별주문체결조회 Output1
     #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Getters)]
     pub struct InquireDailyCcld1 {
         #[getset(get = "pub")]
@@ -286,6 +290,7 @@ pub mod Output {
         stpm_efct_occr_dtmd: String,
     }
 
+    /// 주식일별주문체결조회 Output2
     #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Getters)]
     pub struct InquireDailyCcld2 {
         #[getset(get = "pub")]
@@ -298,6 +303,5 @@ pub mod Output {
         prsm_tlex_smtl: String,
         #[getset(get = "pub")]
         pchs_avg_pric: String,
-    }
     }
 }
